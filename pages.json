@@ -1,0 +1,34 @@
+{
+    "pages" : [
+        {
+            "path" : "pages/home/home"
+        },{
+            "path" : "components/mpvue-echarts/src/echarts",
+            "style" : {}
+        }
+    ],
+	"subPackages": [{
+		"root": "pagesA",
+		"pages": [{
+			"path" : "list/list",
+			"style": {
+				"navigationBarTitleText": "基地详情",
+				"navigationBarTextStyle" : "white"
+			}
+		}]
+	}],
+	"preloadRule": {
+		"pages/home/home": {
+			"network": "all",
+			"packages": ["pagesA"]
+		}
+	},
+    "globalStyle" : {
+        "navigationBarTextStyle" : "white",
+		"enablePullDownRefresh": false,
+        "navigationBarTitleText" : "青春黄庙 校外实践",
+        "navigationBarBackgroundColor" : "#d04637",
+        "backgroundColor" : "#F8F8F8"
+    },
+    "uniIdRouter" : {}
+}
