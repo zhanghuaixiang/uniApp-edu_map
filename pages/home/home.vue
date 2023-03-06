@@ -11,11 +11,11 @@
 			<view class="popup-content" :class="{ 'popup-height': type === 'left' || type === 'right' }">
 				<view class="title">{{clickData.name}}</view>
 				<view class="text">{{clickData.address}}</view>
-				<view class="text">{{clickData.time}}</view>
-				<view class="text">{{clickData.phone}}</view>
+				<view class="text" v-if="clickData.time">{{clickData.time}}</view>
+				<view class="text" v-if="clickData.phone">{{clickData.phone}}</view>
 				<view class="buttons">
 					<button class="button" @click="navigationHere(clickData)">导航到这</button>
-					<button class="button" v-if="clickData.name!='黄庙小学'" @click="clickEvent(clickData)">查看详情</button>
+					<button class="button" v-if="!hidden && clickData.name!='黄庙小学'" @click="clickEvent(clickData)">查看详情</button>
 				</view>
 			</view>
 		</uni-popup>
@@ -32,7 +32,7 @@
 		data() {
 			return {
 				echarts,
-				forbidden: true,
+				hidden: true,
 				clickData: {}
 			};
 		},
@@ -78,26 +78,23 @@
 				});
 				echarts.registerMap('mudanqu', mdqJSON);
 				canvas.setChart(chart);
-				//初始化echarts实例
-				chart.setOption(optionMap);
-				canvas.setChart(chart);
-				let date = new Date().toLocaleDateString();
-				const dateArr = date.split("/");
-				const newDateArr = dateArr.map(d=>{
-					return d.length === 1?`0${d}`:d;
-				})
-				if(newDateArr.join("") > 20230303) {
-					this.forbidden = false;
-					chart.on("click", (res)=>{
-						const {name} = res;
-						console.log(res);
-						
-						if(res.componentType === "markPoint") {
-							this.$parent.clickData = res.data
-							this.$parent.$refs.popup.open("bottom")
-						}
-					})
+				let targetTime = new Date('2023/03/06').getTime();
+				if(new Date().getTime() > targetTime) {
+					this.hidden = false;
 				}
+				//初始化echarts实例
+				chart.setOption(optionMap());
+				canvas.setChart(chart);
+				
+				chart.on("click", (res)=>{
+					const {name} = res;
+					console.log(res);
+					
+					if(res.componentType === "markPoint") {
+						this.$parent.clickData = res.data
+						this.$parent.$refs.popup.open("bottom")
+					}
+				})
 				
 				return chart;
 			}

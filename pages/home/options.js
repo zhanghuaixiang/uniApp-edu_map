@@ -1,5 +1,5 @@
-import markPoints from "../../static/markPoints.js"
-export default {
+import getMarkPoints from "../../static/markPoints.js"
+export default () => ({
 	tooltip: {
 		trigger: 'none',
 		formatter: '{b}: {c}mg/m³'
@@ -187,7 +187,7 @@ export default {
 					color: "#00557f"
 				}
 			},
-			data: [...markPoints.map((item, i)=>{
+			data: [...getMarkPoints().map((item, i)=>{
 				item.value = i+1;
 				return item
 			}),{
@@ -210,4 +210,4 @@ export default {
 			}]
 		}
 	}
-}
+})
