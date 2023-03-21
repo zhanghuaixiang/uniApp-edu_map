@@ -78,8 +78,9 @@
 				});
 				echarts.registerMap('mudanqu', mdqJSON);
 				canvas.setChart(chart);
-				let targetTime = new Date('2023/03/06').getTime();
+				let targetTime = new Date('2023/03/27 17:00:00').getTime();
 				if(new Date().getTime() > targetTime) {
+					this.$parent.hidden = false;
 					this.hidden = false;
 				}
 				//初始化echarts实例
